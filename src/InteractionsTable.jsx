@@ -1,8 +1,12 @@
-function InteractionsTable() {
-  const { Card, IconBtn, cx } = window.UI;
-  const I = window.Icons;
-  const rows = window.GS_DATA.interactions;
-  const [filter, setFilter] = React.useState('Todas');
+import { useState } from 'react'
+import { Card, IconBtn, cx } from './ui'
+import { Icons } from './icons'
+import { interactions } from './data'
+import DetailPanel from './DetailPanel'
+
+export default function InteractionsTable() {
+  const I = Icons;
+  const [filter, setFilter] = useState('Todas');
   const filters = ['Todas','Llamada','WhatsApp','Email','Score < 5'];
 
   const ChannelBadge = ({ ch }) => {
@@ -93,7 +97,7 @@ function InteractionsTable() {
           </tr>
         </thead>
         <tbody>
-          {rows.map(r => (
+          {interactions.map(r => (
             <tr key={r.id} className={cx("hover:bg-paper-soft", r.highlight && "bg-[#FFFBF4]")}>
               <td className="px-3.5 py-3.5 border-b border-line align-middle">
                 <div className="flex flex-col leading-tight">
@@ -131,4 +135,3 @@ function InteractionsTable() {
     </Card>
   );
 }
-window.InteractionsTable = InteractionsTable;

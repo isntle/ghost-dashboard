@@ -1,6 +1,8 @@
-function CtaStrip() {
-  const { Btn } = window.UI;
-  const I = window.Icons;
+import { Btn } from './ui'
+import { Icons } from './icons'
+
+export default function CtaStrip() {
+  const I = Icons;
   return (
     <>
       <div className="cta-strip border border-[#D9CFFF] rounded-lg2 shadow-card">
@@ -27,4 +29,3 @@ function CtaStrip() {
     </>
   );
 }
-window.CtaStrip = CtaStrip;

@@ -1,6 +1,8 @@
-function Topbar() {
-  const { Pill, Btn, IconBtn } = window.UI;
-  const I = window.Icons;
+import { Pill, Btn, IconBtn } from './ui'
+import { Icons } from './icons'
+
+export default function Topbar() {
+  const I = Icons;
   return (
     <div className="topbar-glass flex items-center gap-3.5 px-8 py-[18px] border-b border-line sticky top-0 z-10">
       <div className="flex items-center gap-2 text-muted text-[13px]">
@@ -25,4 +27,3 @@ function Topbar() {
     </div>
   );
 }
-window.Topbar = Topbar;

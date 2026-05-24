@@ -1,7 +1,9 @@
-function AgentRanking() {
-  const { Card, CardHead, Seg, cx } = window.UI;
-  const [tab, setTab] = React.useState('Top');
-  const data = window.GS_DATA.agentRanking;
+import { useState } from 'react'
+import { Card, CardHead, Seg, cx } from './ui'
+import { agentRanking } from './data'
+
+export default function AgentRanking() {
+  const [tab, setTab] = useState('Top');
 
   const TrendSpark = ({ trend }) => {
     if (!trend) return null;
@@ -20,9 +22,9 @@ function AgentRanking() {
                 right={<Seg options={['Top','Bottom']} value={tab} onChange={setTab} />} />
       <div className="px-[18px] pb-[18px] pt-0">
         <div className="flex flex-col">
-          {data.map((a, i) => (
+          {agentRanking.map((a, i) => (
             <div key={i} className={cx("grid items-center gap-3 py-2.5",
-                                       i < data.length - 1 && "border-b border-dashed border-line")}
+                                       i < agentRanking.length - 1 && "border-b border-dashed border-line")}
                  style={{gridTemplateColumns:'26px 1fr auto auto'}}>
               <div className="mono text-[11px] text-muted-2 text-center">{a.rank}</div>
               <div className="flex items-center gap-2.5 min-w-0">
@@ -55,4 +57,3 @@ function AgentRanking() {
     </Card>
   );
 }
-window.AgentRanking = AgentRanking;

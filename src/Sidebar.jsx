@@ -1,6 +1,8 @@
-function Sidebar() {
-  const { cx } = window.UI;
-  const I = window.Icons;
+import { cx } from './ui'
+import { Icons } from './icons'
+
+export default function Sidebar() {
+  const I = Icons;
 
   const NavItem = ({ icon, label, active, badge, badgeAlert }) => (
     <a className={cx(
@@ -22,7 +24,6 @@ function Sidebar() {
 
   return (
     <aside className="bg-sidebar text-sidebar-ink px-[18px] pt-[22px] pb-6 border-r border-sidebar-line flex flex-col gap-[22px] sticky top-0 h-screen">
-      {/* brand */}
       <div className="flex items-center gap-2.5 px-1.5">
         <div className="brand-mark-bg w-7 h-7 rounded-lg grid place-items-center text-white font-bold text-[13px]">G</div>
         <div className="flex flex-col leading-none">
@@ -31,7 +32,6 @@ function Sidebar() {
         </div>
       </div>
 
-      {/* org switcher */}
       <div className="mt-1 flex items-center gap-2.5 p-2.5 rounded-md2 bg-sidebar-card border border-[#1F2229] cursor-pointer">
         <div className="w-[26px] h-[26px] rounded-md grid place-items-center text-white font-semibold text-[11px]"
              style={{background: 'linear-gradient(135deg, #B4A2FF, #5B3DF5)'}}>CV</div>
@@ -42,7 +42,6 @@ function Sidebar() {
         <I.ChevD w={14} className="text-sidebar-muted" />
       </div>
 
-      {/* Auditoría */}
       <div className="flex flex-col gap-0.5">
         <div className="text-[11px] text-[#4B5057] tracking-[0.08em] uppercase pl-2.5 pb-2">Auditoría</div>
         <NavItem icon={<I.Grid />}   label="Executive Report" active />
@@ -52,7 +51,6 @@ function Sidebar() {
         <NavItem icon={<I.Trend />}  label="Tendencias" />
       </div>
 
-      {/* Configuración */}
       <div className="flex flex-col gap-0.5">
         <div className="text-[11px] text-[#4B5057] tracking-[0.08em] uppercase pl-2.5 pb-2">Configuración</div>
         <NavItem icon={<I.Gear />}   label="Personas / Bots" />
@@ -60,7 +58,6 @@ function Sidebar() {
         <NavItem icon={<I.Shield />} label="Billing" badge="Trial" badgeAlert />
       </div>
 
-      {/* user */}
       <div className="mt-auto border-t border-sidebar-line pt-3.5 flex items-center gap-2.5">
         <div className="w-[30px] h-[30px] rounded-full grid place-items-center text-white font-semibold text-[12px]"
              style={{background:'linear-gradient(135deg,#FFB17A,#C04D2E)'}}>RA</div>
@@ -73,5 +70,3 @@ function Sidebar() {
     </aside>
   );
 }
-
-window.Sidebar = Sidebar;

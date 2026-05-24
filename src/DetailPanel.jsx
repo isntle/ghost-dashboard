@@ -1,13 +1,14 @@
-function DetailPanel() {
-  const { Tag, cx } = window.UI;
-  const I = window.Icons;
-  const transcript = window.GS_DATA.transcript;
+import { Tag, cx } from './ui'
+import { Icons } from './icons'
+import { transcript } from './data'
+
+export default function DetailPanel() {
+  const I = Icons;
   const heights = [4,7,11,15,9,18,22,14,8,20,25,17,11,7,15,22,28,21,14,9,12,18,24,30,26,18,12,9,15,21,28,33,29,21,15,10,8,14,20,27,31,25,18,12,9,7,12,18,24,29,26,20,14,10,8,11,16,22,27,24,18,13,9,7,10,15,20,25,22,17,12,9,7,10,14,18,21,24,19,13];
   const playedTo = 22;
 
   return (
     <div className="mx-[18px] mb-[18px] border border-line rounded-md2 embed-bg p-3.5 grid gap-5" style={{gridTemplateColumns:'1fr 1.1fr'}}>
-      {/* Audio */}
       <div>
         <div className="flex items-center gap-2 mb-2 text-[11.5px] font-medium text-muted tracking-wide uppercase">
           <I.Mic w={12} />
@@ -50,7 +51,6 @@ function DetailPanel() {
         </div>
       </div>
 
-      {/* Transcript */}
       <div>
         <div className="flex items-center gap-2 mb-2 text-[11.5px] font-medium text-muted tracking-wide uppercase">
           <I.Lines w={12} />
@@ -80,4 +80,3 @@ function DetailPanel() {
     </div>
   );
 }
-window.DetailPanel = DetailPanel;

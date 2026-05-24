@@ -1,14 +1,12 @@
-/* Reusable UI primitives */
+export const cx = (...xs) => xs.filter(Boolean).join(' ');
 
-const cx = (...xs) => xs.filter(Boolean).join(' ');
-
-const Card = ({ className, children, ...rest }) => (
+export const Card = ({ className, children, ...rest }) => (
   <div className={cx("bg-paper-elev border border-line rounded-lg2 shadow-card", className)} {...rest}>
     {children}
   </div>
 );
 
-const CardHead = ({ title, sub, right, className }) => (
+export const CardHead = ({ title, sub, right, className }) => (
   <div className={cx("flex items-center justify-between px-[18px] pt-4 pb-3", className)}>
     <div className="min-w-0">
       <h3 className="m-0 text-[14px] font-medium text-ink tracking-[-0.005em]">{title}</h3>
@@ -18,7 +16,7 @@ const CardHead = ({ title, sub, right, className }) => (
   </div>
 );
 
-const Seg = ({ options, value, onChange }) => (
+export const Seg = ({ options, value, onChange }) => (
   <div className="inline-flex bg-paper-warm border border-line rounded-md p-[2px]">
     {options.map((o, i) => (
       <button key={i}
@@ -31,14 +29,14 @@ const Seg = ({ options, value, onChange }) => (
   </div>
 );
 
-const Pill = ({ children, className, dot }) => (
+export const Pill = ({ children, className, dot }) => (
   <div className={cx("inline-flex items-center gap-2 h-8 px-3 bg-paper-elev border border-line-strong rounded-lg text-[13px] text-ink-2 cursor-pointer", className)}>
     {dot && <span className={cx("w-1.5 h-1.5 rounded-full", dot)} style={{boxShadow: '0 0 0 3px rgba(4,120,87,.15)'}} />}
     {children}
   </div>
 );
 
-const Btn = ({ variant = 'primary', className, children, icon, iconRight, ...rest }) => {
+export const Btn = ({ variant = 'primary', className, children, icon, iconRight, ...rest }) => {
   const base = "inline-flex items-center gap-2 h-8 px-3 rounded-lg text-[13px] font-medium cursor-pointer border transition-colors";
   const map = {
     primary:   "bg-ink border-ink text-white hover:bg-black",
@@ -53,13 +51,13 @@ const Btn = ({ variant = 'primary', className, children, icon, iconRight, ...res
   );
 };
 
-const IconBtn = ({ children, title, className, ...rest }) => (
+export const IconBtn = ({ children, title, className, ...rest }) => (
   <button title={title} className={cx("w-8 h-8 grid place-items-center bg-paper-elev border border-line-strong rounded-lg text-ink-2 hover:bg-paper", className)} {...rest}>
     {children}
   </button>
 );
 
-const Verdict = ({ tone = 'bad', children }) => {
+export const Verdict = ({ tone = 'bad', children }) => {
   const m = {
     bad:  'bg-bad-tint text-bad',
     warn: 'bg-warn-tint text-warn',
@@ -73,7 +71,7 @@ const Verdict = ({ tone = 'bad', children }) => {
   );
 };
 
-const Delta = ({ tone = 'bad', children }) => {
+export const Delta = ({ tone = 'bad', children }) => {
   const m = {
     bad:  'text-bad bg-bad-tint',
     warn: 'text-warn bg-warn-tint',
@@ -86,11 +84,9 @@ const Delta = ({ tone = 'bad', children }) => {
   );
 };
 
-const Tag = ({ tone, children }) => (
+export const Tag = ({ tone, children }) => (
   <span className="inline-flex items-center gap-1.5 h-6 px-2 rounded bg-paper-warm border border-line text-[11.5px] text-ink-2">
     {tone && <span className={cx("w-1.5 h-1.5 rounded-full", tone === 'good' ? 'bg-good' : tone === 'warn' ? 'bg-warn' : 'bg-bad')} />}
     {children}
   </span>
 );
-
-window.UI = { cx, Card, CardHead, Seg, Pill, Btn, IconBtn, Verdict, Delta, Tag };

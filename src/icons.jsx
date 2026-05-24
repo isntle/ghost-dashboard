@@ -1,4 +1,3 @@
-/* Inline SVG icons — stroke uses currentColor */
 const Icon = ({ d, w = 16, stroke = 2, fill = "none", children, ...rest }) => (
   <svg width={w} height={w} viewBox="0 0 24 24" fill={fill} stroke="currentColor"
        strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" {...rest}>
@@ -6,7 +5,7 @@ const Icon = ({ d, w = 16, stroke = 2, fill = "none", children, ...rest }) => (
   </svg>
 );
 
-const Icons = {
+export const Icons = {
   Grid:   (p) => <Icon {...p}><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></Icon>,
   Check2: (p) => <Icon {...p}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></Icon>,
   Clock:  (p) => <Icon {...p}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></Icon>,
@@ -34,5 +33,4 @@ const Icons = {
   Mic:    (p) => <Icon {...p}><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-7h3z"/><path d="M3 19a2 2 0 0 0 2 2h1v-7H3z"/></Icon>,
 };
 
-window.Icon = Icon;
-window.Icons = Icons;
+export default Icon;

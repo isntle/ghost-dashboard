@@ -1,13 +1,13 @@
-function ChannelBreakdown() {
-  const { Card, CardHead, cx } = window.UI;
-  const channels = window.GS_DATA.channelMix;
+import { Card, CardHead, cx } from './ui'
+import { channelMix } from './data'
 
+export default function ChannelBreakdown() {
   return (
     <Card>
       <CardHead title="Resultado por canal" sub="distribución de status (217 contactos)" />
       <div className="px-[18px] pt-1 pb-[18px]">
         <div className="flex flex-col gap-3.5">
-          {channels.map(ch => (
+          {channelMix.map(ch => (
             <div key={ch.key} className="grid items-center gap-3.5" style={{gridTemplateColumns:'110px 1fr 80px'}}>
               <div className="flex items-center gap-2 text-[13.5px] text-ink-2">
                 <div className={cx("w-6 h-6 rounded-md grid place-items-center text-[11px] font-semibold", ch.iconClass)}>{ch.icon}</div>
@@ -64,4 +64,3 @@ function ChannelBreakdown() {
     </Card>
   );
 }
-window.ChannelBreakdown = ChannelBreakdown;

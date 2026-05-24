@@ -1,6 +1,8 @@
-function ScoreTrend() {
-  const { Card, CardHead, Seg } = window.UI;
-  const [tab, setTab] = React.useState('30d');
+import { useState } from 'react'
+import { Card, CardHead, Seg } from './ui'
+
+export default function ScoreTrend() {
+  const [tab, setTab] = useState('30d');
   return (
     <Card>
       <CardHead title="Quality Score · evolución diaria" sub="últimos 30 días · benchmark 8.0"
@@ -40,4 +42,3 @@ function ScoreTrend() {
     </Card>
   );
 }
-window.ScoreTrend = ScoreTrend;

@@ -1,8 +1,11 @@
-function ProtocolCompliance() {
-  const { Card, CardHead, Seg, cx } = window.UI;
-  const I = window.Icons;
-  const data = window.GS_DATA.protocolData;
-  const [tab, setTab] = React.useState('Total');
+import { useState } from 'react'
+import { Card, CardHead, Seg, cx } from './ui'
+import { Icons } from './icons'
+import { protocolData } from './data'
+
+export default function ProtocolCompliance() {
+  const I = Icons;
+  const [tab, setTab] = useState('Total');
 
   return (
     <Card>
@@ -11,10 +14,10 @@ function ProtocolCompliance() {
                 right={<Seg options={['Total','Llamada','WhatsApp','Email']} value={tab} onChange={setTab} />} />
       <div className="px-[18px] pt-1 pb-[18px]">
         <div className="flex flex-col gap-3.5">
-          {data.map(row => {
+          {protocolData.map(row => {
             const Ico = I[row.iconKey];
             const fillCls = row.level === 'bad' ? 'bar-bad' : row.level === 'warn' ? 'bar-warn' : 'bar-good';
-            const pctCls = row.level === 'bad' ? 'text-bad' : row.level === 'warn' ? 'text-warn' : 'text-good';
+            const pctCls  = row.level === 'bad' ? 'text-bad' : row.level === 'warn' ? 'text-warn' : 'text-good';
             return (
               <div key={row.key} className="grid items-center gap-3.5"
                    style={{gridTemplateColumns:'200px 1fr 56px 70px'}}>
@@ -41,4 +44,3 @@ function ProtocolCompliance() {
     </Card>
   );
 }
-window.ProtocolCompliance = ProtocolCompliance;

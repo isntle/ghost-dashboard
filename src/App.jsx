@@ -1,10 +1,17 @@
-function App() {
-  const {
-    Sidebar, Topbar, TrialBanner, PageHead, KpiCards,
-    ProtocolCompliance, AiInsights, ScoreTrend, ChannelBreakdown,
-    AgentRanking, InteractionsTable, CtaStrip,
-  } = window;
+import Sidebar from './Sidebar'
+import Topbar from './Topbar'
+import TrialBanner from './TrialBanner'
+import PageHead from './PageHead'
+import KpiCards from './KpiCards'
+import ProtocolCompliance from './ProtocolCompliance'
+import AiInsights from './AiInsights'
+import ScoreTrend from './ScoreTrend'
+import ChannelBreakdown from './ChannelBreakdown'
+import AgentRanking from './AgentRanking'
+import InteractionsTable from './InteractionsTable'
+import CtaStrip from './CtaStrip'
 
+export default function App() {
   return (
     <div className="grid min-h-screen" style={{gridTemplateColumns:'232px 1fr'}}>
       <Sidebar />
@@ -33,5 +40,3 @@ function App() {
     </div>
   );
 }
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);

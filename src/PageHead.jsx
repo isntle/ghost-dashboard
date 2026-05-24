@@ -1,6 +1,8 @@
-function PageHead() {
-  const { Verdict, Seg } = window.UI;
-  const [tab, setTab] = React.useState('Detalle');
+import { useState } from 'react'
+import { Verdict, Seg } from './ui'
+
+export default function PageHead() {
+  const [tab, setTab] = useState('Detalle');
   return (
     <div className="flex items-end justify-between gap-6 pt-1.5">
       <div>
@@ -19,4 +21,3 @@ function PageHead() {
     </div>
   );
 }
-window.PageHead = PageHead;

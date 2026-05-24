@@ -1,6 +1,8 @@
-function TrialBanner() {
-  const { Btn } = window.UI;
-  const I = window.Icons;
+import { Btn } from './ui'
+import { Icons } from './icons'
+
+export default function TrialBanner() {
+  const I = Icons;
   return (
     <div className="trial-bg mx-8 mt-4 flex items-center gap-[18px] px-4 py-3.5 rounded-lg2 border border-[#1F2229] text-sidebar-ink">
       <span className="mono text-[10px] tracking-[0.14em] uppercase text-brand-light px-2 py-1 border border-[#2D2257] rounded relative z-10"
@@ -22,4 +24,3 @@ function TrialBanner() {
     </div>
   );
 }
-window.TrialBanner = TrialBanner;

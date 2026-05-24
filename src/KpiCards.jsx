@@ -1,6 +1,8 @@
-function KpiCards() {
-  const { Delta, cx } = window.UI;
-  const I = window.Icons;
+import { Delta, cx } from './ui'
+import { Icons } from './icons'
+
+export default function KpiCards() {
+  const I = Icons;
 
   const Spark = ({ d, stroke, fillId, withArea }) => (
     <svg className="absolute right-0 bottom-0 h-16 w-full pointer-events-none opacity-90" viewBox="0 0 400 80" preserveAspectRatio="none">
@@ -41,7 +43,6 @@ function KpiCards() {
 
   return (
     <div className="grid gap-4" style={{gridTemplateColumns:'1.3fr 1fr 1fr 1fr'}}>
-      {/* Hero */}
       <KpiCard hero label="Quality Score promedio" icon={<I.Star w={14} />}
         delta="▼ 1.4" deltaTone="bad"
         deltaSub="vs mes pasado · debajo del benchmark del sector (8.1)"
@@ -92,4 +93,3 @@ function KpiCards() {
     </div>
   );
 }
-window.KpiCards = KpiCards;
