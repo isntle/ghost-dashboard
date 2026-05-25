@@ -25,17 +25,40 @@ export default function InteractionsTable({ data, campaignId }) {
     if (first) setSelectedId(first.id)
   }, [data])
 
-  // Fetch call detail when selection changes
+  // Fetch call detail or WhatsApp messages depending on channel
   useEffect(() => {
     if (!selectedId) return
+    const row = rows.find(r => r.id === selectedId)
     setCallDetail(null)
     setLoadingDetail(true)
-    fetch(`${API_BASE}/call-details/interaction/${selectedId}`)
+
+    const isWa = row?.channel === 'wa'
+    const url  = isWa
+      ? `${API_BASE}/messages/interaction/${selectedId}`
+      : `${API_BASE}/call-details/interaction/${selectedId}`
+
+    fetch(url)
       .then(r => r.json())
-      .then(json => { if (json.success && json.data?.length) setCallDetail(json.data[0]) })
+      .then(json => {
+        if (!json.success) return
+        if (isWa) {
+          // Normalize WhatsApp messages → same shape as call detail
+          setCallDetail({
+            duration_sec: null,
+            transcript: json.data.map(m => ({
+              role:             m.role === 'bot' ? 'agent' : 'user',
+              message:          m.content,
+              time_in_call_secs: 0,
+              sent_at:          m.sent_at,
+            }))
+          })
+        } else {
+          if (json.data?.length) setCallDetail(json.data[0])
+        }
+      })
       .catch(() => {})
       .finally(() => setLoadingDetail(false))
-  }, [selectedId])
+  }, [selectedId, rows])
 
   useEffect(() => {
     if (!campaignId) return

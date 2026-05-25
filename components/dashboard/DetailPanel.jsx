@@ -18,8 +18,10 @@ export default function DetailPanel({ interaction, callDetail, loading }) {
 
   // Build transcript lines from API data
   const lines = callDetail?.transcript?.map(t => ({
-    t:    fmtTime(t.time_in_call_secs),
-    who:  t.role === 'agent' ? 'bot' : 'vendor',   // agent = our bot, user = their salesperson
+    t:    t.sent_at
+      ? new Date(t.sent_at).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: false })
+      : fmtTime(t.time_in_call_secs),
+    who:  t.role === 'agent' ? 'bot' : 'vendor',
     name: t.role === 'agent' ? 'BOT' : 'VENDEDOR',
     text: t.message,
   })) ?? null
