@@ -3,11 +3,12 @@
 import { useState } from 'react'
 import { Card, CardHead, Seg, cx } from '@/lib/ui'
 import { Icons } from '@/lib/icons'
-import { protocolData } from '@/lib/data'
+import { protocolData as defaultData } from '@/lib/data'
 
-export default function ProtocolCompliance() {
+export default function ProtocolCompliance({ data }) {
   const I = Icons;
   const [tab, setTab] = useState('Total');
+  const rows = data ?? defaultData
 
   return (
     <Card>
@@ -16,7 +17,7 @@ export default function ProtocolCompliance() {
                 right={<Seg options={['Total','Llamada','WhatsApp','Email']} value={tab} onChange={setTab} />} />
       <div className="px-[18px] pt-1 pb-[18px]">
         <div className="flex flex-col gap-3.5">
-          {protocolData.map(row => {
+          {rows.map(row => {
             const Ico = I[row.iconKey];
             const fillCls = row.level === 'bad' ? 'bar-bad' : row.level === 'warn' ? 'bar-warn' : 'bar-good';
             const pctCls  = row.level === 'bad' ? 'text-bad' : row.level === 'warn' ? 'text-warn' : 'text-good';

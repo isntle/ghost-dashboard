@@ -1,7 +1,15 @@
 import { Delta, cx } from '@/lib/ui'
 import { Icons } from '@/lib/icons'
 
-export default function KpiCards() {
+export default function KpiCards({ data }) {
+  const {
+    qualityScore     = 6.2,
+    responseRatePct  = 64,
+    responseMins     = 8,
+    responseSecs     = 32,
+    closePct         = 18,
+    totalInteractions = 217,
+  } = data ?? {}
   const I = Icons;
 
   const Spark = ({ d, stroke, fillId, withArea }) => (
@@ -51,7 +59,9 @@ export default function KpiCards() {
             d="M0,28 L40,22 L80,34 L120,30 L160,42 L200,38 L240,50 L280,54 L320,58 L360,62 L400,66" />
         }>
         <div className="mt-3.5 flex items-baseline gap-1.5 leading-none">
-          <span className="num text-[56px] font-semibold tracking-[-0.03em]">6.2</span>
+          <span className="num text-[56px] font-semibold tracking-[-0.03em]">
+            {qualityScore ?? '—'}
+          </span>
           <span className="text-[22px] text-muted-2 font-medium">/ 10</span>
         </div>
         <div className="mt-4 h-2 w-full rounded-lg relative score-meter-bg">
@@ -66,28 +76,38 @@ export default function KpiCards() {
         delta="▲ 41%" deltaTone="bad" deltaSub="objetivo: < 5 min"
         spark={<Spark stroke="#D97706" d="M0,55 L33,52 L66,48 L99,50 L132,42 L165,40 L198,32 L231,30 L264,24 L297,28 L330,20 L363,18 L400,12" />}>
         <div className="mt-3.5 flex items-baseline gap-1.5 leading-none">
-          <span className="num text-[38px] font-semibold tracking-[-0.03em]">8</span>
-          <span className="text-[16px] text-muted font-medium">m</span>
-          <span className="num text-[38px] font-semibold tracking-[-0.03em] ml-1.5">32</span>
-          <span className="text-[16px] text-muted font-medium">s</span>
+          {responseMins != null ? (
+            <>
+              <span className="num text-[38px] font-semibold tracking-[-0.03em]">{responseMins}</span>
+              <span className="text-[16px] text-muted font-medium">m</span>
+              <span className="num text-[38px] font-semibold tracking-[-0.03em] ml-1.5">{responseSecs}</span>
+              <span className="text-[16px] text-muted font-medium">s</span>
+            </>
+          ) : (
+            <span className="num text-[38px] font-semibold tracking-[-0.03em] text-muted-2">—</span>
+          )}
         </div>
       </KpiCard>
 
       <KpiCard label="Tasa de respuesta" icon={<I.Plane w={14} />}
-        delta="▼ 8 pts" deltaTone="warn" deltaSub="139 de 217 contactos"
+        delta="▼ 8 pts" deltaTone="warn" deltaSub={`${totalInteractions} contactos totales`}
         spark={<Spark stroke="#D97706" d="M0,30 L40,28 L80,36 L120,30 L160,40 L200,38 L240,46 L280,40 L320,48 L360,42 L400,50" />}>
         <div className="mt-3.5 flex items-baseline gap-1.5 leading-none">
-          <span className="num text-[38px] font-semibold tracking-[-0.03em]">64</span>
+          <span className="num text-[38px] font-semibold tracking-[-0.03em]">
+            {responseRatePct != null ? Math.round(responseRatePct) : '—'}
+          </span>
           <span className="text-[16px] text-muted font-medium">%</span>
         </div>
       </KpiCard>
 
       <KpiCard label="Intento de cierre" icon={<I.Tick w={14} />}
-        delta="▼ 12 pts" deltaTone="bad" deltaSub="solo 39 de 217"
+        delta="▼ 12 pts" deltaTone="bad" deltaSub={`de ${totalInteractions} interacciones`}
         spark={<Spark stroke="#DC2626" d="M0,22 L40,30 L80,28 L120,38 L160,34 L200,46 L240,48 L280,56 L320,54 L360,62 L400,68" />}>
         <div className="mt-3.5 flex items-baseline gap-1.5 leading-none">
-          <span className="num text-[38px] font-semibold tracking-[-0.03em]">18</span>
-          <span className="text-[16px] text-muted font-medium">%</span>
+          <span className="num text-[38px] font-semibold tracking-[-0.03em]">
+            {closePct != null ? Math.round(closePct) : '—'}
+          </span>
+          {closePct != null && <span className="text-[16px] text-muted font-medium">%</span>}
         </div>
       </KpiCard>
     </div>

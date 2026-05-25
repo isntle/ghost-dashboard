@@ -1,7 +1,8 @@
 import { Card, CardHead, cx } from '@/lib/ui'
-import { channelMix } from '@/lib/data'
+import { channelMix as defaultData } from '@/lib/data'
 
-export default function ChannelBreakdown() {
+export default function ChannelBreakdown({ data }) {
+  const channelMix = data ?? defaultData
   return (
     <Card>
       <CardHead title="Resultado por canal" sub="distribución de status (217 contactos)" />

@@ -1,15 +1,61 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, IconBtn, cx } from '@/lib/ui'
 import { Icons } from '@/lib/icons'
-import { interactions } from '@/lib/data'
+import { interactions as defaultData } from '@/lib/data'
+import { toTableRows } from '@/lib/transforms'
 import DetailPanel from '@/components/dashboard/DetailPanel'
 
-export default function InteractionsTable() {
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://127.0.0.1:8000'
+
+export default function InteractionsTable({ data, campaignId }) {
   const I = Icons;
-  const [filter, setFilter] = useState('Todas');
-  const filters = ['Todas','Llamada','WhatsApp','Email','Score < 5'];
+  const [filter, setFilter]       = useState('Todas')
+  const [rows, setRows]           = useState(data ?? defaultData)
+  const [selectedId, setSelectedId]   = useState(null)
+  const [callDetail, setCallDetail]   = useState(null)
+  const [loadingDetail, setLoadingDetail] = useState(false)
+
+  useEffect(() => { setRows(data ?? defaultData) }, [data])
+
+  // Auto-select first scored interaction
+  useEffect(() => {
+    const first = (data ?? defaultData).find(r => r.score != null)
+    if (first) setSelectedId(first.id)
+  }, [data])
+
+  // Fetch call detail when selection changes
+  useEffect(() => {
+    if (!selectedId) return
+    setCallDetail(null)
+    setLoadingDetail(true)
+    fetch(`${API_BASE}/call-details/interaction/${selectedId}`)
+      .then(r => r.json())
+      .then(json => { if (json.success && json.data?.length) setCallDetail(json.data[0]) })
+      .catch(() => {})
+      .finally(() => setLoadingDetail(false))
+  }, [selectedId])
+
+  useEffect(() => {
+    if (!campaignId) return
+    const poll = setInterval(async () => {
+      try {
+        const res  = await fetch(`${API_BASE}/interactions/campaign/${campaignId}`)
+        const json = await res.json()
+        if (json.success) setRows(toTableRows(json.data))
+      } catch {}
+    }, 30000)
+    return () => clearInterval(poll)
+  }, [campaignId])
+  const filters = ['Todas','Llamada','WhatsApp','Email','Score < 5']
+  const filterMap = { 'Llamada': 'call', 'WhatsApp': 'wa', 'Email': 'em' }
+
+  const filtered = rows.filter(r => {
+    if (filter === 'Todas') return true
+    if (filter === 'Score < 5') return r.score != null && parseFloat(r.score) < 5
+    return r.channel === filterMap[filter]
+  })
 
   const ChannelBadge = ({ ch }) => {
     if (ch === 'wa')   return <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[12px] font-medium bg-[#DCFCE7] text-[#146C43]"><span className="text-[11px]">●</span> WhatsApp</span>;
@@ -58,7 +104,7 @@ export default function InteractionsTable() {
     <Card className="p-0 overflow-hidden">
       <div className="flex items-center gap-3 px-[18px] py-3.5 border-b border-line">
         <h3 className="m-0 text-[14px] font-medium">Interacciones recientes</h3>
-        <span className="mono text-[11px] text-muted px-1.5 py-0.5 bg-paper-warm rounded">217 registros</span>
+        <span className="mono text-[11px] text-muted px-1.5 py-0.5 bg-paper-warm rounded">{rows.length} registros</span>
         <div className="flex-1" />
         <div className="inline-flex items-center gap-2 h-7 px-2.5 border border-line-strong rounded bg-paper-elev text-muted text-[12.5px] min-w-[220px]">
           <I.Search w={14} />
@@ -99,8 +145,13 @@ export default function InteractionsTable() {
           </tr>
         </thead>
         <tbody>
-          {interactions.map(r => (
-            <tr key={r.id} className={cx("hover:bg-paper-soft", r.highlight && "bg-[#FFFBF4]")}>
+          {filtered.map(r => (
+            <tr key={r.id}
+              onClick={() => setSelectedId(r.id)}
+              className={cx(
+                "cursor-pointer hover:bg-paper-soft",
+                selectedId === r.id ? "bg-brand-tint/30" : r.highlight && "bg-[#FFFBF4]"
+              )}>
               <td className="px-3.5 py-3.5 border-b border-line align-middle">
                 <div className="flex flex-col leading-tight">
                   <b className="text-ink font-medium text-[13.5px]">{r.when}</b>
@@ -133,7 +184,11 @@ export default function InteractionsTable() {
         </tbody>
       </table>
 
-      <DetailPanel />
+      <DetailPanel
+        interaction={rows.find(r => r.id === selectedId) ?? null}
+        callDetail={callDetail}
+        loading={loadingDetail}
+      />
     </Card>
   );
 }

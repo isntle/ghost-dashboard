@@ -1,8 +1,9 @@
 import { Fragment } from 'react'
 import { Card, cx } from '@/lib/ui'
-import { insightsData } from '@/lib/data'
+import { insightsData as defaultData } from '@/lib/data'
 
-export default function AiInsights() {
+export default function AiInsights({ data }) {
+  const insightsData = data ?? defaultData
   const sevClass = (s) => s === 'crit' ? 'ins-crit' : s === 'warn' ? 'ins-warn' : 'ins-good';
   const sevSev   = (s) => s === 'crit'
     ? 'bg-bad-tint text-bad'
